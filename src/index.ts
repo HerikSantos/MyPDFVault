@@ -1,7 +1,23 @@
-class SumA {
-    a(sum1: number, sum2: number) {
-        return sum1 + sum2;
-    }
-}
+import "dotenv/config";
+import "reflect-metadata";
+import "express-async-errors";
+import express from "express";
+import { customerRoute } from "./routes/customerRoute";
+import { errorPrevent } from "./middlewares/errorPrevent";
+import { appDataSource } from "./database";
+const app = express();
 
-export { SumA };
+app.use(express.json());
+app.use(customerRoute);
+app.use(errorPrevent);
+
+appDataSource
+    .initialize()
+    .then(() => {
+        app.listen(3333, () => {
+            console.log("Server listens on port 3333");
+        });
+    })
+    .catch((err) => {
+        console.log("Something was wrong with the database" + err.stack);
+    });

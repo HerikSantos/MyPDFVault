@@ -2,7 +2,7 @@ import globals from "globals";
 import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
 import jest from "eslint-plugin-jest";
-import eslintConfigPrettier from "eslint-config-prettier";
+import stylistic from "@stylistic/eslint-plugin";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -23,7 +23,11 @@ export default [
         },
     },
     {
-        rules: {},
+        plugins: {
+            "@stylistic": stylistic,
+        },
+        rules: {
+            "@stylistic/semi": ["error", "always"],
+        },
     },
-    eslintConfigPrettier,
 ];
