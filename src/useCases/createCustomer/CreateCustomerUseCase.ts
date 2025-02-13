@@ -1,8 +1,8 @@
 import { InvalidData, InvalidType } from "../../errors/customerError";
 import { ICustomerRepository } from "../../repository/ICustomerRepository";
 import { ICreateCustomerUseCase } from "./ICreateCustomerUseCase";
-import { IEmailValidator } from "./protocols/IEmailValidator";
-import { IEncrypter } from "./protocols/IEncrypter";
+import { IEmailValidator } from "../protocols/IEmailValidator";
+import { IEncrypter } from "../protocols/IEncrypter";
 
 class CreateCustomerUseCase implements ICreateCustomerUseCase {
     constructor(
@@ -34,9 +34,9 @@ class CreateCustomerUseCase implements ICreateCustomerUseCase {
             throw new InvalidData("invalid email", 400);
         }
 
-        const userExists = await this.customerRepository.findByEmail(email);
+        const customerExists = await this.customerRepository.findByEmail(email);
 
-        if (userExists) {
+        if (customerExists) {
             throw new InvalidData("The customer already exists", 400);
         }
 

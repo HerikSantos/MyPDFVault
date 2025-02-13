@@ -5,10 +5,12 @@ import express from "express";
 import { customerRoute } from "./routes/customerRoute";
 import { errorPrevent } from "./middlewares/errorPrevent";
 import { appDataSource } from "./database";
+import { loginCustomerRoute } from "./routes/loginCustomerRoute";
 const app = express();
 
 app.use(express.json());
 app.use(customerRoute);
+app.use(loginCustomerRoute);
 app.use(errorPrevent);
 
 appDataSource

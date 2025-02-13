@@ -3,8 +3,8 @@ import { InvalidData, InvalidType } from "../../errors/customerError";
 import { ICustomerRepository } from "../../repository/ICustomerRepository";
 import { CreateCustomerUseCase } from "./CreateCustomerUseCase";
 import { ICreateCustomerUseCase } from "./ICreateCustomerUseCase";
-import { IEmailValidator } from "./protocols/IEmailValidator";
-import { IEncrypter } from "./protocols/IEncrypter";
+import { IEmailValidator } from "../protocols/IEmailValidator";
+import { IEncrypter } from "../protocols/IEncrypter";
 
 interface ITypeSUT {
     customerRepositoryStub: ICustomerRepository;
@@ -28,6 +28,8 @@ function makeEncrypterStub() {
         hash(password: string): string {
             return "hashed_password";
         }
+
+        compare: (password: string, hashPassword: string) => boolean;
     }
 
     return new EncrypterStub();
@@ -194,7 +196,7 @@ describe("Create customer", () => {
         );
     });
 
-    it("It should throw if the user already exists", async () => {
+    it("It should throw if the customer already exists", async () => {
         const customer = {
             name: "teste da silva",
             email: "teste@gmail.com",
